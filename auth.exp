@@ -1,0 +1,11 @@
+#!/usr/bin/expect -f
+set timeout 100
+spawn gh auth login -p https -w
+expect -re "Authenticate Git with your GitHub credentials."
+send "y\r"
+expect -re "First copy your one-time code: (\[A-Z0-9\]{4}-\[A-Z0-9\]{4})"
+set code $expect_out(1,string)
+puts "\n\n=== YOUR ONE-TIME CODE IS: $code ===\n\n"
+expect -re "Press Enter to open github.com in your browser..."
+send "\r"
+expect "Logged in as"

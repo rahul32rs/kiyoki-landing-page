@@ -9,7 +9,6 @@ import {
   Globe, 
   Bell, 
   Mail, 
-  Phone, 
   MapPin, 
   Database, 
   Cpu, 
@@ -615,11 +614,11 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
                     </div>
 
                     <div className="flex items-start gap-2.5">
-                      <Phone className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+                      {/* <Phone className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
                       <div>
                         <div className="text-neutral-400">Toll-Free Phone</div>
                         <div className="text-white font-medium">1-800-549-6541</div>
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="flex items-start gap-2.5">

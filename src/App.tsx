@@ -11,12 +11,15 @@ import { Footer } from './components/Footer';
 import { SearchModal } from './components/SearchModal';
 import { CartDrawer, CartItem } from './components/CartDrawer';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
+import { DeleteUser } from './components/DeleteUser';
 
 export function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'privacy'>(() => {
-    return typeof window !== 'undefined' && window.location.hash === '#privacy-policy'
-      ? 'privacy'
-      : 'home';
+  const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'delete-user'>(() => {
+    if (typeof window !== 'undefined') {
+      if (window.location.hash === '#privacy-policy' || window.location.pathname === '/privacy-policy') return 'privacy';
+      if (window.location.hash === '#delete-user' || window.location.pathname === '/delete-user') return 'delete-user';
+    }
+    return 'home';
   });
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -26,6 +29,9 @@ export function App() {
     const handleHashChange = () => {
       if (window.location.hash === '#privacy-policy') {
         setCurrentView('privacy');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (window.location.hash === '#delete-user') {
+        setCurrentView('delete-user');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (!window.location.hash || window.location.hash === '#' || window.location.hash === '') {
         setCurrentView('home');
@@ -91,6 +97,8 @@ export function App() {
           onBackToHome={navigateToHome}
           onOpenContact={() => setIsSearchOpen(true)}
         />
+      ) : currentView === 'delete-user' ? (
+        <DeleteUser onBackToHome={navigateToHome} />
       ) : (
         /* HERO & SECTIONS */
         <main className="w-full">

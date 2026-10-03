@@ -1,6 +1,5 @@
-import React from 'react';
 import { ArrowLeft, UserMinus, Mail, AlertTriangle } from 'lucide-react';
-import KiyokiLogo from './KiyokiLogo';
+import { KiyokiLogo } from './KiyokiLogo';
 
 interface DeleteUserProps {
   onBackToHome: () => void;

@@ -16,8 +16,8 @@ import { DeleteUser } from './components/DeleteUser';
 export function App() {
   const [currentView, setCurrentView] = useState<'home' | 'privacy' | 'delete-user'>(() => {
     if (typeof window !== 'undefined') {
-      if (window.location.hash === '#privacy-policy' || window.location.pathname === '/privacy-policy') return 'privacy';
-      if (window.location.hash === '#delete-user' || window.location.pathname === '/delete-user') return 'delete-user';
+      if (window.location.pathname === '/privacy-policy') return 'privacy';
+      if (window.location.pathname === '/delete-user') return 'delete-user';
     }
     return 'home';
   });
@@ -26,34 +26,31 @@ export function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    const handleHashChange = () => {
-      if (window.location.hash === '#privacy-policy') {
+    const handleLocationChange = () => {
+      if (window.location.pathname === '/privacy-policy') {
         setCurrentView('privacy');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (window.location.hash === '#delete-user') {
+      } else if (window.location.pathname === '/delete-user') {
         setCurrentView('delete-user');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else if (!window.location.hash || window.location.hash === '#' || window.location.hash === '') {
+      } else {
         setCurrentView('home');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
 
   const navigateToPrivacy = () => {
-    window.location.hash = 'privacy-policy';
-    setCurrentView('privacy');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.history.pushState(null, '', '/privacy-policy');
+    window.dispatchEvent(new Event('popstate'));
   };
 
   const navigateToHome = () => {
-    if (window.location.hash === '#privacy-policy') {
-      window.history.pushState(null, '', window.location.pathname);
-    }
-    setCurrentView('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.history.pushState(null, '', '/');
+    window.dispatchEvent(new Event('popstate'));
   };
 
   const handleShopClick = () => {
